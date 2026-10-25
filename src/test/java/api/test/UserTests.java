@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import com.github.javafaker.Faker;
 
 import api.endpoints.UserEndPoints;
+import api.endpoints.UserEndPoints2;
 import api.payload.User;
 import io.restassured.response.Response;
 
@@ -49,7 +50,7 @@ public class UserTests {
 	{
 		
 		logger.info("-----------------creating user------------------");
-		Response response = UserEndPoints.createUser(userPayload);
+		Response response = UserEndPoints2.createUser(userPayload);
 		response.then().log().all();
 		
 		Assert.assertEquals(response.getStatusCode(),200);
@@ -59,7 +60,7 @@ public class UserTests {
 	@Test(priority = 2)
 	public void testGetuserbyName() {
 		logger.info("************user info reading*****----");
-		Response response = UserEndPoints.readUser(this.userPayload.getUsername());
+		Response response = UserEndPoints2.readUser(this.userPayload.getUsername());
 		response.then().log().all();
 		
 		Assert.assertEquals(response.getStatusCode(),200);
@@ -74,13 +75,13 @@ public class UserTests {
 			userPayload.setLastName(faker.name().lastName());
 			userPayload.setEmail(faker.internet().safeEmailAddress());
 			
-			Response response = UserEndPoints.updateUser(this.userPayload.getUsername(), userPayload);
+			Response response = UserEndPoints2.updateUser(this.userPayload.getUsername(), userPayload);
 			response.then().log().body();
 			
 			Assert.assertEquals(response.getStatusCode(),200);
 			
 			//checking data after update
-			Response responseData = UserEndPoints.readUser(this.userPayload.getUsername());
+			Response responseData = UserEndPoints2.readUser(this.userPayload.getUsername());
 			responseData.then().log().all();
 			
 			Assert.assertEquals(responseData.getStatusCode(),200);
@@ -89,7 +90,7 @@ public class UserTests {
 		
 		@Test(priority = 4)
 		public void testDeleteuserbyName() {
-			Response response = UserEndPoints.deleteUser(this.userPayload.getUsername());
+			Response response = UserEndPoints2.deleteUser(this.userPayload.getUsername());
 			response.then().log().all();
 			
 			Assert.assertEquals(response.getStatusCode(),200);
